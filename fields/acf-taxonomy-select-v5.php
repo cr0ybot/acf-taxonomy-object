@@ -20,7 +20,6 @@ class acf_field_taxonomy_chooser extends acf_field {
 		$this->l10n = array(
 			//'error'	=> __( 'Error! Please enter a higher value', 'acf-taxonomy-select' ),
 		);
-		//$this->settings = $settings;
 
 		parent::__construct();
 	}
@@ -48,7 +47,6 @@ class acf_field_taxonomy_chooser extends acf_field {
 			'name' => 'return_format',
 			'choices' => array(
 				'slug' => __( 'Slug','acf-taxonomy-select' ),
-				'id' => __( 'ID','acf-taxonomy-select' ),
 				'object' => __( 'Object','acf-taxonomy-select' )
 			),
 			'layout' => 'horizontal'
@@ -145,14 +143,6 @@ class acf_field_taxonomy_chooser extends acf_field {
 
 		// hidden input
 		if ( $field['ui'] ) {
-			/*
-			acf_hidden_input( array(
-				'type' => 'hidden',
-				'id' => $field['id'],
-				'name' => $field['name'],
-				'value' => implode( ',', $field['value'] )
-			));
-			*/
 			$v = $field['value'];
 
 			if( $field['multiple'] ) {
@@ -169,16 +159,10 @@ class acf_field_taxonomy_chooser extends acf_field {
 			) );
 		}
 		elseif ( $field['multiple'] ) {
-			/*
 			acf_hidden_input( array(
-				'type' => 'hidden',
-				'name' => $field['name'],
-			) );
-			*/
-			acf_hidden_input(array(
 				'id' => $field['id'] . '-input',
 				'name' => $field['name']
-			));
+			) );
 		}
 
 		// vars
@@ -242,32 +226,53 @@ class acf_field_taxonomy_chooser extends acf_field {
 
 		// construct html
 		echo '<select ' . acf_esc_attr( $atts ) . '>';
-
-		if( !empty( $els ) ) {
-			foreach( $els as $el ) {
-
-				// extract type
-				$type = acf_extract_var( $el, 'type' );
-
-				if ( $type == 'option' ) {
-
-					// get label
-					$label = acf_extract_var( $el, 'label' );
-
-					// validate selected
-					if ( acf_extract_var( $el, 'selected') ) {
-						$el['selected'] = 'selected';
-					}
-					echo acf_esc_attr( $el );
-					echo '<option ' . acf_esc_attr( $el ) . '>' . $label . '</option>';
-				}
-				else {
-					echo '<' . $type . ' ' . acf_esc_attr( $el ) . ' />';
-				}
-			}
-		}
-
+		$this->walk( $field['choices'], $field['value'] );
 		echo '</select>';
+	}
+
+	/**
+	 * walk
+	 *
+	 * Output option HTML
+	 */
+	function walk( $choices, $values ) {
+
+		// bail early if no choices
+		if( empty( $choices ) ) return;
+
+		// loop
+		foreach( $choices as $k => $v ) {
+
+			// optgroup
+			if( is_array( $v ) ){
+
+				// optgroup
+				echo '<optgroup label="' . esc_attr( $k ) . '">';
+
+				// walk
+				$this->walk( $v, $values );
+
+				// close optgroup
+				echo '</optgroup>';
+
+				// break
+				continue;
+			}
+
+			// vars
+			$search = html_entity_decode( $k );
+			$pos = array_search( $search, $values );
+			$atts = array( 'value' => $k );
+
+			// validate selected
+			if( $pos !== false ) {
+				$atts['selected'] = 'selected';
+				$atts['data-i'] = $pos;
+			}
+
+			// option
+			echo '<option ' . acf_esc_attr( $atts ) . '>' . $v . '</option>';
+		}
 	}
 
 	function input_admin_enqueue_scripts() {
@@ -313,78 +318,105 @@ class acf_field_taxonomy_chooser extends acf_field {
 		wp_enqueue_style('select2', $style, '', $version );
 	}
 
-	//function input_admin_head() {}
-
-	//function input_form_data( $args ) {}
-
-	//function input_admin_footer() {}
-
-	//function field_group_admin_enqueue_scripts() {}
-
-	//function field_group_admin_head() {}
-
-	/*
+	/**
+	 * load_value()
+	 *
+	 * This filter is applied to the $value after it is loaded from the db
+	 */
 	function load_value( $value, $post_id, $field ) {
+
+		// ACF4 null
+		if( $value === 'null' ) return false;
+
 		return $value;
 	}
-	*/
 
-	/*
+	/**
+	 * update_field
+	 *
+	 * This filter is appied to the $field before it is saved to the database
+	 */
+	function update_field( $field ) {
+
+		// decode choices (convert to array)
+		$field['choices'] = acf_decode_choices( $field['choices'] );
+		//$field['default_value'] = acf_decode_choices( $field['default_value'], true );
+
+		// return
+		return $field;
+	}
+
+
+	/**
+	 * update_value
+	 *
+	 * This filter is appied to the $value before it is updated in the db
+	 */
 	function update_value( $value, $post_id, $field ) {
-		return $value;
-	}
-	*/
 
-	/*
-	function format_value( $value, $post_id, $field ) {
-		// bail early if no value
-		if ( empty($value) ) {
+		// validate
+		if( empty( $value ) ) {
 			return $value;
 		}
 
-		// apply setting
-		if ( $field['font_size'] > 12 ) {
-			// format the value
-			// $value = 'something';
+		// array
+		if( is_array( $value ) ) {
+			// save value as strings, so we can clearly search for them in SQL LIKE statements
+			$value = array_map( 'strval', $value );
 		}
 
-		// return
 		return $value;
 	}
-	*/
 
-	/*
-	function validate_value( $valid, $value, $field, $input ){
-		// Basic usage
-		if ( $value < $field['custom_minimum_setting'] ) {
-			$valid = false;
-		}
 
-		// Advanced usage
-		if( $value < $field['custom_minimum_setting'] ) {
-			$valid = __('The value is too little!','acf-taxonomy-select'),
-		}
+	/**
+	 * translate_field
+	 *
+	 * This function will translate field settings
+	 */
+	function translate_field( $field ) {
 
-		// return
-		return $valid;
-	}
-	*/
+		// translate
+		$field['choices'] = acf_translate( $field['choices'] );
 
-	//function delete_value( $post_id, $key ) {}
-
-	/*
-	function load_field( $field ) {
 		return $field;
 	}
-	*/
 
-	/*
-	function update_field( $field ) {
-		return $field;
+	/**
+	 * format_value
+	 *
+	 * This filter is appied to the $value after it is loaded from the db and before it is returned to the template
+	*/
+	function format_value( $value, $post_id, $field ) {
+
+		// array
+		if( acf_is_array( $value ) ) {
+
+			foreach( $value as $i => $v ) {
+				$value[ $i ] = $this->format_value_single( $v, $post_id, $field );
+			}
+		}
+		else {
+			$value = $this->format_value_single( $value, $post_id, $field );
+		}
+
+		return $value;
 	}
-	*/
 
-	//function delete_field( $field ) {}
+	function format_value_single( $value, $post_id, $field ) {
+
+		// bail ealry if is empty
+		if( acf_is_empty( $value ) ) return $value;
+
+		// vars
+		//$label = acf_maybe_get( $field['choices'], $value, $value );
+
+		if ( $field['return_format'] == 'object' ) {
+			$value = get_taxonomy( $value );
+		}
+
+		return $value;
+	}
 }
 
 
