@@ -2,7 +2,7 @@
 /*
  * Plugin Name: Advanced Custom Fields: Taxonomy Select
  * Plugin URI: https://github.com/cr0ybot/acf-taxonomy-select
- * Description: ACF plugin for selecting taxonomies (NOT taxonomy terms)
+ * Description: ACF 5 plugin for selecting taxonomies (NOT taxonomy terms)
  * Version: 1.0
  * Author: Cory Hughart
  * Author URI: http://coryhughart.com
