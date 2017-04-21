@@ -3,7 +3,7 @@
  * Plugin Name: Advanced Custom Fields: Taxonomy Select
  * Plugin URI: https://github.com/cr0ybot/acf-taxonomy-select
  * Description: ACF 5 plugin for selecting taxonomies (NOT taxonomy terms)
- * Version: 1.0
+ * Version: 1.0.0
  * Author: Cory Hughart
  * Author URI: http://coryhughart.com
  * License: GPLv2 or later
@@ -18,25 +18,13 @@ if( ! defined( 'ABSPATH' ) ) exit;
 if( !class_exists('acf_plugin_taxonomy_select') ) :
 class acf_plugin_taxonomy_select {
 
-	/*
-	*  __construct
-	*
-	*  This function will setup the class functionality
-	*
-	*  @type	function
-	*  @date	17/02/2016
-	*  @since	1.0.0
-	*
-	*  @param	n/a
-	*  @return	n/a
-	*/
 	function __construct() {
 
 		// vars
 		$this->settings = array(
-			'version'	=> '1.0.0',
-			'url'		=> plugin_dir_url( __FILE__ ),
-			'path'		=> plugin_dir_path( __FILE__ )
+			'version' => '1.0.0',
+			'url' => plugin_dir_url( __FILE__ ),
+			'path' => plugin_dir_path( __FILE__ )
 		);
 
 		// set text domain
@@ -44,8 +32,8 @@ class acf_plugin_taxonomy_select {
 		load_plugin_textdomain( 'acf-taxonomy-select', false, plugin_basename( dirname( __FILE__ ) ) . '/lang' );
 
 		// include field
-		add_action('acf/include_field_types', 	array($this, 'include_field_types')); // v5
-		add_action('acf/register_fields', 		array($this, 'include_field_types')); // v4
+		add_action('acf/include_field_types', array($this, 'include_field_types')); // v5
+		//add_action('acf/register_fields', array($this, 'include_field_types')); // v4
 	}
 
 	function include_field_types( $version = false ) {
