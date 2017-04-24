@@ -2,23 +2,23 @@
 /**
  * ACF 5
  */
-class acf_field_taxonomy_chooser extends acf_field {
+class acf_field_taxonomy_object extends acf_field {
 
 	function __construct() {
 
-		$this->name = 'taxonomy-select';
-		$this->label = __( 'Taxonomy Object', 'acf-taxonomy-select' );
+		$this->name = 'taxonomy-object';
+		$this->label = __( 'Taxonomy Object', 'acf-taxonomy-object' );
 		$this->category = 'relational';
 		$this->defaults = array(
 			'choices' => array(),
 			'allow_null' => 0,
 			'ui' => 0,
 			'ajax' => 0,
-			'return_format' => 'slug',
+			'return_format' => 'object',
 			'multiple' => 0,
 		);
 		$this->l10n = array(
-			//'error'	=> __( 'Error! Please enter a higher value', 'acf-taxonomy-select' ),
+			//'error'	=> __( 'Error! Please enter a higher value', 'acf-taxonomy-object' ),
 		);
 
 		parent::__construct();
@@ -28,7 +28,7 @@ class acf_field_taxonomy_chooser extends acf_field {
 
 		// choices : Allowed Taxonomies
 		acf_render_field_setting( $field, array(
-			'label' => __( 'Choose Allowed Taxonomies', 'acf-taxonomy-select' ),
+			'label' => __( 'Choose Allowed Taxonomies', 'acf-taxonomy-object' ),
 			'instructions' => '',
 			'type' => 'select',
 			'name' => 'choices',
@@ -36,7 +36,7 @@ class acf_field_taxonomy_chooser extends acf_field {
 			'multiple' => 1,
 			'ui' => 1,
 			'allow_null' => 1,
-			'placeholder' => __( 'All Taxonomies', 'acf-taxonomy-select' )
+			'placeholder' => __( 'All Taxonomies', 'acf-taxonomy-object' )
 		));
 
 		 // taxonomy object, slug, or id
@@ -46,15 +46,15 @@ class acf_field_taxonomy_chooser extends acf_field {
 			'type' => 'radio',
 			'name' => 'return_format',
 			'choices' => array(
-				'slug' => __( 'Slug','acf-taxonomy-select' ),
-				'object' => __( 'Object','acf-taxonomy-select' )
+				'object' => __( 'Object','acf-taxonomy-object' ),
+				'slug' => __( 'Slug','acf-taxonomy-object' ),
 			),
 			'layout' => 'horizontal'
 		));
 
 		// allow multiple
 		acf_render_field_setting( $field, array(
-			'label' => __( 'Select multiple taxonomies?', 'acf-taxonomy-select' ),
+			'label' => __( 'Select multiple taxonomies?', 'acf-taxonomy-object' ),
 			'instructions' => '',
 			'type' => 'true_false',
 			'name' => 'multiple',
@@ -74,9 +74,6 @@ class acf_field_taxonomy_chooser extends acf_field {
 	}
 
 	function render_field( $field ) {
-
-		//$taxonomies = acf_get_array( $taxonomies );
-		//$taxonomies = acf_get_pretty_taxonomies( $taxonomies );
 		$taxonomies = array();
 		$taxonomy_terms = acf_get_taxonomy_terms();
 		$selected_taxonomies = array();
@@ -100,7 +97,7 @@ class acf_field_taxonomy_chooser extends acf_field {
 
 		// placeholder
 		if ( empty( $field['placeholder'] ) ) {
-			$field['placeholder'] = __( 'Select', 'acf-taxonomy-select' );
+			$field['placeholder'] = __( 'Select', 'acf-taxonomy-object' );
 		}
 
 		// allow null
@@ -112,7 +109,8 @@ class acf_field_taxonomy_chooser extends acf_field {
 		// vars
 		$atts = array(
 			'id' => $field['id'],
-			'class' => $field['class'] . ' js-multi-taxonomy-select2',
+			//'class' => $field['class'] . ' js-multi-taxonomy-object2',
+			'class' => $field['class'],
 			'name' => $field['name'],
 			'data-ui' => $field['ui'],
 			'data-ajax' => $field['ajax'],
@@ -278,44 +276,40 @@ class acf_field_taxonomy_chooser extends acf_field {
 	function input_admin_enqueue_scripts() {
 
 		// bail ealry if no enqueue
-		if( !acf_get_setting('enqueue_select2') ) return;
+		if ( ! acf_get_setting('enqueue_select2') ) return;
 
 		// globals
 		global $wp_scripts, $wp_styles;
 
 		// vars
-		$min = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '' : '.min';
-		$major = acf_get_setting('select2_version');
+		$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
+		$major = acf_get_setting( 'select2_version' );
 		$version = '';
 		$script = '';
 		$style = '';
 
 		// attempt to find 3rd party Select2 version
 		// - avoid including v3 CSS when v4 JS is already enququed
-		if( isset($wp_scripts->registered['select2']) ) {
+		if ( isset( $wp_scripts->registered['select2'] ) ) {
 			$major = (int) $wp_scripts->registered['select2']->ver;
 		}
 
-		// v4
 		if ( $major == 4 ) {
-
+			// v4
 			$version = '4.0';
-			$script = acf_get_dir("assets/inc/select2/4/select2.full{$min}.js");
-			$style = acf_get_dir("assets/inc/select2/4/select2{$min}.css");
-
-		// v3
-		} else {
-
+			$script = acf_get_dir( "assets/inc/select2/4/select2.full{$min}.js" );
+			$style = acf_get_dir( "assets/inc/select2/4/select2{$min}.css" );
+		}
+		else {
+			// v3
 			$version = '3.5.2';
-			$script = acf_get_dir("assets/inc/select2/3/select2{$min}.js");
-			$style = acf_get_dir("assets/inc/select2/3/select2.css");
-
+			$script = acf_get_dir( "assets/inc/select2/3/select2{$min}.js" );
+			$style = acf_get_dir( "assets/inc/select2/3/select2.css" );
 		}
 
-
 		// enqueue
-		wp_enqueue_script('select2', $script, array('jquery'), $version );
-		wp_enqueue_style('select2', $style, '', $version );
+		wp_enqueue_script( 'select2', $script, array( 'jquery' ), $version );
+		wp_enqueue_style( 'select2', $style, '', $version );
 	}
 
 	/**
@@ -367,7 +361,6 @@ class acf_field_taxonomy_chooser extends acf_field {
 
 		return $value;
 	}
-
 
 	/**
 	 * translate_field
@@ -421,6 +414,6 @@ class acf_field_taxonomy_chooser extends acf_field {
 
 
 // create field
-new acf_field_taxonomy_chooser();
+new acf_field_taxonomy_object();
 
 ?>

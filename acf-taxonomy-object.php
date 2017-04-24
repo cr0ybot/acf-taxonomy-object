@@ -1,22 +1,22 @@
 <?php
 /*
- * Plugin Name: Advanced Custom Fields: Taxonomy Select
- * Plugin URI: https://github.com/cr0ybot/acf-taxonomy-select
+ * Plugin Name: Advanced Custom Fields: Taxonomy Object
+ * Plugin URI: https://github.com/cr0ybot/acf-taxonomy-object
  * Description: ACF 5 plugin for selecting taxonomies (NOT taxonomy terms)
  * Version: 1.0.0
  * Author: Cory Hughart
  * Author URI: http://coryhughart.com
  * License: GPLv2 or later
  * License URI: http://www.gnu.org/licenses/gpl-2.0.html
- * GitHub Plugin URI: https://github.com/cr0ybot/acf-taxonomy-select
+ * GitHub Plugin URI: https://github.com/cr0ybot/acf-taxonomy-object
 */
 
 // exit if accessed directly
-if( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) exit;
 
 // check if class already exists
-if( !class_exists('acf_plugin_taxonomy_select') ) :
-class acf_plugin_taxonomy_select {
+if ( ! class_exists('acf_plugin_taxonomy_object') ) :
+class acf_plugin_taxonomy_object {
 
 	function __construct() {
 
@@ -29,7 +29,7 @@ class acf_plugin_taxonomy_select {
 
 		// set text domain
 		// https://codex.wordpress.org/Function_Reference/load_plugin_textdomain
-		load_plugin_textdomain( 'acf-taxonomy-select', false, plugin_basename( dirname( __FILE__ ) ) . '/lang' );
+		load_plugin_textdomain( 'acf-taxonomy-object', false, plugin_basename( dirname( __FILE__ ) ) . '/lang' );
 
 		// include field
 		add_action('acf/include_field_types', array($this, 'include_field_types')); // v5
@@ -42,7 +42,7 @@ class acf_plugin_taxonomy_select {
 		if( !$version ) $version = 4;
 
 		if ( $version == 5 ) {
-			include_once('fields/acf-taxonomy-select-v5.php');
+			include_once('fields/acf-taxonomy-object-v5.php');
 		}
 	}
 }

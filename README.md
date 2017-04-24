@@ -1,6 +1,6 @@
-# ACF Taxonomy Select Field
+# ACF Taxonomy Object Field
 
-ACF plugin for selecting taxonomies (NOT taxonomy terms)
+ACF 5 plugin for selecting taxonomies (NOT taxonomy terms)
 
 -----------------------
 
@@ -71,9 +71,9 @@ stdClass WP_Taxonomy (
 
 ### Installation
 
-1. Copy the `acf-taxonomy-select` folder into your `wp-content/plugins` folder
-2. Activate the acf-taxonomy-select plugin via the plugins admin page
-3. Create a new field via ACF and select the Taxonomy Select type
+1. Copy the `acf-taxonomy-object` folder into your `wp-content/plugins` folder
+2. Activate the acf-taxonomy-object plugin via the plugins admin page
+3. Create a new field via ACF and select the Taxonomy Object type
 4. Please refer to the description for more info regarding the field type settings
 
 ### Changelog

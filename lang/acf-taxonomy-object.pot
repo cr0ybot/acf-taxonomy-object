@@ -18,58 +18,58 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: acf-taxonomy-select-v5.php:32
+#: acf-taxonomy-object-v5.php:32
 msgid "Multi Taxonomy Chooser"
 msgstr ""
 
-#: acf-taxonomy-select-v5.php:63
+#: acf-taxonomy-object-v5.php:63
 msgid "Error! Please enter a higher value"
 msgstr ""
 
-#: acf-taxonomy-select-v5.php:100
+#: acf-taxonomy-object-v5.php:100
 msgid "Choose Allowed Post Type"
 msgstr ""
 
-#: acf-taxonomy-select-v5.php:108
+#: acf-taxonomy-object-v5.php:108
 msgid "All post types"
 msgstr ""
 
-#: acf-taxonomy-select-v5.php:114
+#: acf-taxonomy-object-v5.php:114
 msgid "Select multiple values?"
 msgstr ""
 
-#: acf-taxonomy-select-v5.php:119
+#: acf-taxonomy-object-v5.php:119
 msgid "Yes"
 msgstr ""
 
-#: acf-taxonomy-select-v5.php:120
+#: acf-taxonomy-object-v5.php:120
 msgid "No"
 msgstr ""
 
-#: acf-taxonomy-select-v5.php:127 acf-taxonomy-select-v5.php:140
+#: acf-taxonomy-object-v5.php:127 acf-taxonomy-object-v5.php:140
 msgid "Return Value"
 msgstr ""
 
-#: acf-taxonomy-select-v5.php:128 acf-taxonomy-select-v5.php:141
+#: acf-taxonomy-object-v5.php:128 acf-taxonomy-object-v5.php:141
 msgid "Specify the returned value on front end"
 msgstr ""
 
-#: acf-taxonomy-select-v5.php:132
+#: acf-taxonomy-object-v5.php:132
 msgid "ID"
 msgstr ""
 
-#: acf-taxonomy-select-v5.php:133
+#: acf-taxonomy-object-v5.php:133
 msgid "Slug"
 msgstr ""
 
-#: acf-taxonomy-select-v5.php:145
+#: acf-taxonomy-object-v5.php:145
 msgid "Multi"
 msgstr ""
 
-#: acf-taxonomy-select-v5.php:146
+#: acf-taxonomy-object-v5.php:146
 msgid "Single"
 msgstr ""
 
-#: acf-taxonomy-select-v5.php:219
+#: acf-taxonomy-object-v5.php:219
 msgid "Select"
 msgstr ""
