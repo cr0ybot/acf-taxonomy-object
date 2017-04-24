@@ -23,6 +23,8 @@ Select the taxonomies you want to provide as choices. Leave blank to allow selec
 
 Choose whether you want to receive a taxonomy slug or object.
 
+__NOTE:__ When using the "object" format, use `get_field()` instead of `the_field()`.
+
 Example return object:
 
 ```
