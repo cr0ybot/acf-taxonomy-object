@@ -47,7 +47,7 @@ class acf_plugin_taxonomy_object {
 	}
 }
 // initialize
-new acf_plugin_taxonomy_select();
+new acf_plugin_taxonomy_object();
 // class_exists check
 endif;
 
