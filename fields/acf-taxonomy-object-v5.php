@@ -143,7 +143,7 @@ class acf_field_taxonomy_object extends acf_field {
 		if ( $field['ui'] ) {
 			$v = $field['value'];
 
-			if( $field['multiple'] ) {
+			if ( $field['multiple'] ) {
 				$v = implode( '||', $v );
 			}
 			else {
@@ -192,7 +192,7 @@ class acf_field_taxonomy_object extends acf_field {
 								'type' => 'option',
 								'value' => $matches[1],
 								'label' => $v2,
-								'selected' => $slct = ( $matches[1] == $field['value'] ? 'selected': '' )
+								'selected' => $matches[1] == $field['value'] ? 'selected': ''
 							);
 
 							$choices[] = $k2;
@@ -206,7 +206,7 @@ class acf_field_taxonomy_object extends acf_field {
 						'type' => 'option',
 						'value' => $k,
 						'label' => $v,
-						'selected' => $slct = ( $k == $field['value'] ? 'selected': '' )
+						'selected' => $k == $field['value'] ? 'selected': ''
 					);
 					$choices[] = $k;
 				}
@@ -236,13 +236,13 @@ class acf_field_taxonomy_object extends acf_field {
 	function walk( $choices, $values ) {
 
 		// bail early if no choices
-		if( empty( $choices ) ) return;
+		if ( empty( $choices ) ) return;
 
 		// loop
-		foreach( $choices as $k => $v ) {
+		foreach ( $choices as $k => $v ) {
 
 			// optgroup
-			if( is_array( $v ) ){
+			if ( is_array( $v ) ) {
 
 				// optgroup
 				echo '<optgroup label="' . esc_attr( $k ) . '">';
@@ -259,7 +259,7 @@ class acf_field_taxonomy_object extends acf_field {
 
 			// vars
 			$search = html_entity_decode( $k );
-			$pos = array_search( $search, $values );
+			$pos = is_array( $values ) ? array_search( $search, $values ) : ( $values == $search ? $search : false );
 			$atts = array( 'value' => $k );
 
 			// validate selected
