@@ -3,7 +3,7 @@
  * Plugin Name: Advanced Custom Fields: Taxonomy Object
  * Plugin URI: https://github.com/cr0ybot/acf-taxonomy-object
  * Description: ACF 5 plugin for selecting taxonomies (NOT taxonomy terms)
- * Version: 1.0.0
+ * Version: 1.0.1
  * Author: Cory Hughart
  * Author URI: http://coryhughart.com
  * License: GPLv2 or later
@@ -22,7 +22,7 @@ class acf_plugin_taxonomy_object {
 
 		// vars
 		$this->settings = array(
-			'version' => '1.0.0',
+			'version' => '1.0.1',
 			'url' => plugin_dir_url( __FILE__ ),
 			'path' => plugin_dir_path( __FILE__ )
 		);

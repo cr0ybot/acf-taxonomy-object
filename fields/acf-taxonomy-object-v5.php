@@ -297,14 +297,14 @@ class acf_field_taxonomy_object extends acf_field {
 		if ( $major == 4 ) {
 			// v4
 			$version = '4.0';
-			$script = acf_get_dir( "assets/inc/select2/4/select2.full{$min}.js" );
-			$style = acf_get_dir( "assets/inc/select2/4/select2{$min}.css" );
+			$script = acf_get_url( "assets/inc/select2/4/select2.full{$min}.js" );
+			$style = acf_get_url( "assets/inc/select2/4/select2{$min}.css" );
 		}
 		else {
 			// v3
 			$version = '3.5.2';
-			$script = acf_get_dir( "assets/inc/select2/3/select2{$min}.js" );
-			$style = acf_get_dir( "assets/inc/select2/3/select2.css" );
+			$script = acf_get_url( "assets/inc/select2/3/select2{$min}.js" );
+			$style = acf_get_url( "assets/inc/select2/3/select2.css" );
 		}
 
 		// enqueue
